@@ -216,9 +216,9 @@ main.shell { padding-block: 30px 50px; }
 }
 .ing-item-heading {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 8px;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
 }
 .ing-name {
   margin: 0;
@@ -232,6 +232,7 @@ main.shell { padding-block: 30px 50px; }
 }
 .ing-usage-count {
   display: inline-block;
+  flex-shrink: 0;
   padding: 3px 7px;
   color: var(--ing-pine);
   background: #e6eee3;
@@ -577,7 +578,7 @@ main.shell { padding-block: 30px 50px; }
 
 .ing-picture-trigger {
   background: transparent; border: 0; padding: 0; color: inherit;
-  font: inherit; display: inline-flex; align-items: center; gap: 8px; text-align: left; min-height: 44px;
+  font: inherit; display: flex; align-items: center; gap: 8px; text-align: left; min-height: 44px; max-width: 100%;
 }
 .ing-picture-trigger:hover { color: var(--leaf); text-decoration: underline; text-underline-offset: .18em; }
 .ing-row-art { flex: 0 0 48px; width: 48px; height: 43px; }
