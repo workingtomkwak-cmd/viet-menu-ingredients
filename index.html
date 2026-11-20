@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143e32">
+  <title>메뉴와 식재료</title>
+  <style>
+:root{--paper:#f7f6f0;--card:#fffef9;--ink:#1e302a;--green:#173f33;--leaf:#306048;--muted:#5f6a60;--line:#d8dccf;--soft:#e9efe2;--orange:#9b492b;--gold:#ddad6f;--radius:14px;font:16px/1.55 "Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;color:var(--ink);background:var(--paper);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid #bb682c;outline-offset:3px}button{border:0}h1,h2,h3,h4,p{margin:0}button,label,input,summary{-webkit-tap-highlight-color:transparent}h1,h2,h3,h4{letter-spacing:-.055em;line-height:1.2}a{color:inherit}.visually-hidden,.skip:not(:focus){position:absolute;clip:rect(0,0,0,0);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}.skip:focus{position:fixed;z-index:5;top:10px;left:10px;background:white;padding:10px}
+.mast{background:var(--green);color:#fffef6}.mast-inner,main{width:min(1232px,calc(100% - 88px));margin:auto}.mast-inner{height:55px;display:flex;align-items:center;justify-content:space-between;gap:16px}.wordmark{display:flex;gap:10px;align-items:center;font-size:14px;font-weight:750;letter-spacing:-.02em}.symbol{display:flex;align-items:end;height:21px;gap:2px;transform:skew(-12deg)}.symbol i{display:block;width:4px;border-radius:3px;background:var(--gold)}.symbol i:nth-child(1){height:10px}.symbol i:nth-child(2){height:19px}.symbol i:nth-child(3){height:15px}.summary{display:flex;gap:12px;font-size:12px;color:#e1eadc;align-items:center}.summary span+span{border-left:1px solid #728373;padding-left:12px}
+main{padding:39px 0 68px}.intro{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:27px}.intro h1{font-size:clamp(32px,4vw,50px);font-weight:760}.intro p{font-size:15px;margin-top:8px;color:var(--muted);letter-spacing:-.025em}.mode-switch{background:#e5e9df;border:1px solid #d3d9ca;padding:4px;border-radius:100px;display:flex;gap:2px;flex-shrink:0}.mode-switch button{padding:9px 17px;border-radius:100px;background:transparent;white-space:nowrap;font-size:14px;font-weight:700}.mode-switch button[aria-pressed=true]{background:var(--green);color:white}.mode-switch span{opacity:.67;margin:0 3px}
+.layout{display:grid;grid-template-columns:minmax(254px,29%) minmax(0,1fr);gap:22px;align-items:start}.catalog,.detail{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}.catalog{position:sticky;top:16px;overflow:hidden}.catalog-head{padding:22px 20px 15px;border-bottom:1px solid var(--line)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.section-head h2{font-size:22px}.count{font-size:13px;color:var(--muted);white-space:nowrap}.search{position:relative;display:flex;align-items:center;margin:16px 0 10px}.search input{width:100%;background:#fff;border:1px solid #cbd2c3;border-radius:8px;padding:9px 12px 9px 36px;min-width:0;font-size:14px;color:var(--ink)}.search i{height:13px;width:13px;border:1.6px solid #667663;border-radius:50%;position:absolute;left:13px}.search i:after{position:absolute;content:"";width:6px;height:1.6px;transform:rotate(45deg);background:#667663;top:11px;left:9px}
+.filter-strip{display:flex;flex-wrap:wrap;gap:5px}.filter-strip button{background:transparent;border:1px solid transparent;color:#626e60;border-radius:100px;font-weight:650;font-size:13px;padding:4px 10px;white-space:nowrap}.filter-strip button[aria-pressed=true]{background:var(--soft);border-color:#b7cbb6;color:#234a39}.filter-strip button:hover:not([aria-pressed=true]){background:#f0f2e9}.filter-strip .filter-count{font-size:11px;margin-left:4px;font-variant-numeric:tabular-nums}.category-select{border:1px solid var(--line);padding:6px 8px;border-radius:6px;width:100%;background:white;color:var(--ink);font-size:13px}
+.catalog-list{overflow-y:auto;max-height:min(63vh,660px);min-height:80px;scrollbar-width:thin;scrollbar-color:#bfc8b9 transparent;overscroll-behavior:contain;padding:5px 0}.catalog-row{width:100%;background:transparent;text-align:left;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-left:3px solid transparent;min-height:44px;font-size:15px}.catalog-row span:first-child{overflow-wrap:anywhere;line-height:1.4}.catalog-row .metric{font-size:11px;font-weight:550;color:var(--muted);white-space:nowrap}.catalog-row:hover,.item-link:hover,.peer-link:hover{background:#f0f3e9}.catalog-row.selected{border-left-color:var(--leaf);background:var(--soft);font-weight:750;color:var(--green)}.catalog-row.selected .metric{color:var(--leaf)}
+.detail{overflow:hidden;min-width:0;scroll-margin-top:10px}.hero{padding:26px 29px 25px;background:var(--green);color:#fffcf2}.hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.back{border:1px solid #6b8474;color:#f1f5e9;background:transparent;font-size:12px;padding:3px 10px;border-radius:100px}.hero .kind{font-size:13px;font-weight:650;color:#d3dfc9}.hero .kind:before{content:"";display:inline-block;margin-right:8px;width:8px;height:8px;border-radius:50%;background:var(--gold)}.hero h2{margin:12px 0 7px;font-weight:720;font-size:clamp(27px,3.2vw,40px);overflow-wrap:anywhere}.hero .details{font-size:14px;color:#e0e9d9;display:flex;flex-wrap:wrap;gap:0 13px}.hero .details strong{font-weight:700;color:#fffcf2}.content-section{padding:23px 28px 26px}.content-section+.content-section{border-top:1px solid var(--line)}.content-section h3{font-size:22px}.content-section>.section-head{margin-bottom:18px}.subgroup+.subgroup{margin-top:17px}.subgroup h4{font-size:13px;color:var(--muted);margin:0 0 7px;font-weight:650;letter-spacing:-.02em}.menu-grid,.ingredient-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.item-link{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;min-height:42px;border:1px solid #d6dece;border-radius:7px;background:white;padding:8px 11px;gap:8px;font-weight:650;font-size:14px;line-height:1.45;overflow-wrap:anywhere}.item-link>.arrow,.peer-link>.arrow{color:var(--leaf);font-weight:500}.ingredient-grid .item-link{align-items:start;flex-direction:column;gap:0;padding:9px 12px}.ingredient-grid .item-link span:last-child{font-size:11px;color:var(--muted);font-weight:500}.ingredient-grid .item-link.is-highlighted{background:#ecf3e8;border-color:#a9c4a7;color:#274a35}.ingredient-grid .item-link.is-highlighted[data-type=single]{background:#f9eee1;border-color:#d6b795;color:#744927}.ingredient-grid .item-link.is-muted{color:#6e726c;background:#f1f1ed;border-color:#e1e3db;font-weight:500}.ingredient-grid .item-link.is-muted span:last-child{color:#6f736b}.ingredient-grid .item-link:hover{border-color:#728e6f}.filter-heading{align-items:start;flex-wrap:wrap}.peer{border-bottom:1px solid #e5e8df}.peer:first-child{border-top:1px solid #e5e8df}.peer summary{list-style:none;display:flex;cursor:pointer;gap:12px;align-items:center;justify-content:space-between;padding:10px 1px;line-height:1.35}.peer summary::-webkit-details-marker{display:none}.peer summary strong{font-size:14px}.peer summary span{margin-left:auto;color:var(--leaf);font-size:12px;white-space:nowrap}.peer summary:after{content:"＋";color:var(--muted);font-size:14px}.peer[open] summary:after{content:"−"}.overlap-list{display:flex;flex-wrap:wrap;gap:5px;list-style:none;padding:0;margin:2px 0 6px}.overlap-list button{padding:4px 9px;border:1px solid #c9d7c3;border-radius:99px;background:#f2f6eb;color:#34523a;font-size:12px}.peer-link{font-size:12px;padding:4px 0;margin-bottom:7px;background:transparent;font-weight:650;color:var(--leaf)}.empty{padding:18px 15px;color:var(--muted);font-size:14px}.detail .empty{padding:9px 0}.more{display:block;width:100%;margin-top:12px;padding:8px;background:#f6f7f0;border:1px solid var(--line);border-radius:6px;color:var(--leaf);font-size:13px;font-weight:650}
+@media(max-width:850px){.mast-inner,main{width:calc(100% - 38px)}.layout{grid-template-columns:minmax(205px,29%) minmax(0,1fr);gap:13px}.catalog-head{padding:17px 14px 12px}.catalog-row{padding:9px 12px}.content-section,.hero{padding:21px}.filter-heading{gap:8px}.intro{padding-bottom:19px}main{padding-top:27px}}
+@media(max-width:670px){.mast-inner,main{width:calc(100% - 28px)}.mast-inner{height:46px}main{padding-top:23px}.summary{font-size:11px;gap:7px}.summary span+span{padding-left:7px}.intro{display:block}.intro h1{font-size:34px}.intro p{font-size:13px}.mode-switch{width:100%;margin-top:16px}.mode-switch button{width:50%;padding:8px}.layout{display:flex;flex-direction:column;gap:13px}.catalog,.detail{width:100%}.catalog{position:static}.catalog-head{padding:13px 14px 10px}.catalog-head .section-head h2{font-size:18px}.search{margin:10px 0 6px}.catalog-list{max-height:158px;min-height:44px}.catalog-row{min-height:38px;padding:7px 14px}.hero,.content-section{padding:18px}.content-section h3{font-size:20px}.content-section>.section-head{margin-bottom:12px}.menu-grid,.ingredient-grid{gap:6px}.item-link{font-size:13px}.filter-heading{align-items:center}.detail{scroll-margin-top:8px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.menu-caption{display:flex;flex-direction:column;align-items:start;gap:1px}.menu-caption small{color:var(--muted);font-size:11px;font-weight:500}.prep{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}.prep summary{color:var(--muted);cursor:pointer;font-size:13px;font-weight:650;padding:4px 0}.prep[open] summary{margin-bottom:5px}
+@media(min-width:1040px){.menu-detail:not(.solo-view){display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}.menu-detail:not(.solo-view) .content-section{padding:21px 20px}.menu-detail:not(.solo-view) .content-section+.content-section{border-top:0;border-left:1px solid var(--line)}.menu-detail .peer summary{gap:5px}.menu-detail .filter-heading{gap:9px}}
+@media(max-width:1039px){.menu-detail .ingredient-grid{max-height:325px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#bfc8b9 transparent;padding:2px}.menu-detail.solo-view .ingredient-grid{max-height:none}}
+
+</style>
+</head>
+<body>
+  <a href="#detail" class="skip">선택 결과로 이동</a>
+  <header class="mast"><div class="mast-inner">
+    <div class="wordmark"><span class="symbol" aria-hidden="true"><i></i><i></i><i></i></span><span>베트남 메뉴 개발</span></div>
+    <div class="summary" id="summary"></div>
+  </div></header>
+  <main>
+    <div class="intro"><div><h1>메뉴와 식재료</h1><p>하나를 선택하면 함께 쓰는 재료와 메뉴가 보입니다.</p></div>
+      <nav class="mode-switch" aria-label="탐색 방향"><button type="button" data-mode="ingredient">재료 <span>→</span> 메뉴</button><button type="button" data-mode="menu">메뉴 <span>→</span> 재료</button></nav>
+    </div>
+    <div class="layout">
+      <aside class="catalog" aria-labelledby="catalog-title">
+        <div class="catalog-head"><div class="section-head"><h2 id="catalog-title"></h2><span class="count" id="visible-count"></span></div>
+          <label class="search"><i aria-hidden="true"></i><input type="search" id="search" autocomplete="off" aria-label="목록 검색"></label>
+          <div id="catalog-filter"></div>
+        </div>
+        <div id="catalog-list" class="catalog-list" tabindex="0" aria-label="선택 목록"></div>
+      </aside>
+      <section class="detail" id="detail" aria-labelledby="item-title" tabindex="-1"></section>
+    </div>
+  </main>
+  <div class="visually-hidden" id="status" aria-live="polite"></div>
+  <noscript><p>메뉴와 식재료를 탐색하려면 브라우저에서 자바스크립트를 켜 주세요.</p></noscript>
+<script>
+window.MENU_DATA = {"menus":[{"id":"pho-beef","name":"기본 소고기 컵쌀국수","category":"쌀국수","ingredients":["소고기 육수","쌀국수면 1mm","소고기 완자","깐양파","숙주","고수","바질","생라임","호이신 소스","스리라차","생쪽파"],"directIngredients":["소고기 육수","쌀국수면 1mm","소고기 완자","깐양파","숙주","고수","바질","생라임","호이신 소스","스리라차","생쪽파"]},{"id":"pho-sate","name":"사떼 컵쌀국수","category":"쌀국수","ingredients":["소고기 육수","쌀국수면 1mm","소고기 완자","깐양파","숙주","고수","바질","생라임","호이신 소스","스리라차","생쪽파","사떼 똠","땅콩 사떼 소스"],"directIngredients":["소고기 육수","쌀국수면 1mm","소고기 완자","깐양파","숙주","고수","바질","생라임","호이신 소스","스리라차","생쪽파","사떼 똠","땅콩 사떼 소스"]},{"id":"pho-mala","name":"마라 컵쌀국수","category":"쌀국수","ingredients":["마라 소스","소고기 육수","쌀국수면 1mm","소고기 완자","깐양파","숙주","고수","바질","생라임","호이신 소스","스리라차","생쪽파"],"directIngredients":["마라 소스","소고기 육수","쌀국수면 1mm","소고기 완자","깐양파","숙주","고수","바질","생라임","호이신 소스","스리라차","생쪽파"]},{"id":"pho-seafood","name":"해물 컵쌀국수","category":"쌀국수","ingredients":["해물 육수","소고기 육수","육수용 건새우","건오징어","쌀국수면 1mm","칵테일새우 21/25","솔방울 오징어","메추리알","숙주","생쪽파","고수","생라임","호이신 소스","스리라차"],"directIngredients":["해물 육수","쌀국수면 1mm","칵테일새우 21/25","솔방울 오징어","메추리알","숙주","생쪽파","고수","생라임","호이신 소스","스리라차"]},{"id":"pho-hotpot","name":"저녁 뚝배기 쌀국수","category":"쌀국수","ingredients":["소고기 육수","쌀국수면 4mm","홍두깨살","숙주","슬라이스 양파","바질","생쪽파","호이신 소스","스리라차","우삼겹","소고기 완자","스지","양지","천엽"],"directIngredients":["소고기 육수","쌀국수면 4mm","홍두깨살","숙주","슬라이스 양파","바질","생쪽파","호이신 소스","스리라차","우삼겹","소고기 완자","스지","양지","천엽"]},{"id":"add-flank","name":"우삼겹 추가","category":"추가 고기","ingredients":["우삼겹"],"directIngredients":["우삼겹"]},{"id":"add-meatball","name":"소고기 완자 추가","category":"추가 고기","ingredients":["소고기 완자"],"directIngredients":["소고기 완자"]},{"id":"add-tendon","name":"스지 추가","category":"추가 고기","ingredients":["스지"],"directIngredients":["스지"]},{"id":"add-brisket","name":"양지 추가","category":"추가 고기","ingredients":["양지"],"directIngredients":["양지"]},{"id":"add-tripe","name":"천엽 추가","category":"추가 고기","ingredients":["천엽"],"directIngredients":["천엽"]},{"id":"add-eye-round","name":"생 홍두깨 추가","category":"추가 고기","ingredients":["홍두깨살"],"directIngredients":["홍두깨살"]},{"id":"rice-vegetable","name":"기본 채소 볶음밥","category":"볶음밥","ingredients":["백미","냉동 혼합채소","생쪽파","카놀라유","미원","치킨파우더","진간장","굴소스","튀긴 마늘","튀긴 샬롯"],"directIngredients":["백미","냉동 혼합채소","생쪽파","카놀라유","미원","치킨파우더","진간장","굴소스","튀긴 마늘","튀긴 샬롯"]},{"id":"rice-chicken","name":"닭고기 볶음밥","category":"볶음밥","ingredients":["백미","냉동 혼합채소","생쪽파","닭가슴살","카놀라유","미원","치킨파우더","진간장","굴소스","튀긴 마늘","튀긴 샬롯"],"directIngredients":["백미","냉동 혼합채소","생쪽파","닭가슴살","카놀라유","미원","치킨파우더","진간장","굴소스","튀긴 마늘","튀긴 샬롯"]},{"id":"rice-shrimp","name":"새우 볶음밥","category":"볶음밥","ingredients":["백미","냉동 혼합채소","생쪽파","흰다리새우살 51/70","카놀라유","미원","치킨파우더","진간장","굴소스","튀긴 마늘","튀긴 샬롯"],"directIngredients":["백미","냉동 혼합채소","생쪽파","흰다리새우살 51/70","카놀라유","미원","치킨파우더","진간장","굴소스","튀긴 마늘","튀긴 샬롯"]},{"id":"bun-cha","name":"분짜/분팃느엉","category":"비빔면","ingredients":["공용 돼지고기구이","돼지 앞다리살","돼지 뒷다리살","돼지고기 구이 양념","레몬그라스","피시소스","굴소스","설탕","생 샬롯","다진 마늘","카놀라유","후추","연육제","분 면","상추","오이","숙주","고수","당근·무 피클","당근","무","식초","소금","볶음 땅콩","튀긴 샬롯","생쪽파","느억쩜(분짜용)","물","미원","홍고추"],"directIngredients":["공용 돼지고기구이","분 면","상추","오이","숙주","고수","당근·무 피클","볶음 땅콩","튀긴 샬롯","생쪽파","카놀라유","소금","느억쩜(분짜용)"]},{"id":"banh-mi","name":"돼지고기구이 반미","category":"반미","ingredients":["반미 바게트","공용 돼지고기구이","돼지 앞다리살","돼지 뒷다리살","돼지고기 구이 양념","레몬그라스","피시소스","굴소스","설탕","생 샬롯","다진 마늘","카놀라유","후추","연육제","당근·무 피클","당근","무","식초","소금","오이","고수","반미 소스","마요네즈","호이신 소스","스리라차"],"directIngredients":["반미 바게트","공용 돼지고기구이","당근·무 피클","오이","고수","반미 소스"]},{"id":"porridge","name":"소고기 육포죽 + 꿔이","category":"죽","ingredients":["소고기 육수","백미","멥쌀가루","소고기 육포채","꿔이","생쪽파","튀긴 샬롯","후추"],"directIngredients":["소고기 육수","백미","멥쌀가루","소고기 육포채","꿔이","생쪽파","튀긴 샬롯","후추"]},{"id":"cha-gio","name":"해물짜조 3개","category":"사이드","ingredients":["쌀피 새우롤(완제품)","카놀라유"],"directIngredients":["쌀피 새우롤(완제품)","카놀라유"]},{"id":"tripe-fried","name":"막창 튀김","category":"사이드","ingredients":["돼지막창","진간장","굴소스","설탕","소금","식초","다진 생강","슬라이스 양파","레몬그라스","다진 마늘","팔각","통계피","치킨파우더","카놀라유","스위트칠리 소스","오이"],"directIngredients":["돼지막창","진간장","굴소스","설탕","소금","식초","다진 생강","슬라이스 양파","레몬그라스","다진 마늘","팔각","통계피","치킨파우더","카놀라유","스위트칠리 소스","오이"]},{"id":"nem-cua-be","name":"넴꾸아베","category":"사이드","ingredients":["붉은대게살","흰다리새우살 91/120","돼지 다짐육","원형 라이스페이퍼 16cm","건목이버섯","당면","숙주","당근","생쪽파","고수","달걀","피시소스","치킨파우더","후추","카놀라유","설탕","식초","물","다진 마늘","상추"],"directIngredients":["붉은대게살","흰다리새우살 91/120","돼지 다짐육","원형 라이스페이퍼 16cm","건목이버섯","당면","숙주","당근","생쪽파","고수","달걀","피시소스","치킨파우더","후추","카놀라유","설탕","식초","물","다진 마늘","상추"]},{"id":"nem-chua-ran","name":"넴쭈아잔","category":"사이드","ingredients":["돼지 다짐육","돼지껍데기","빵가루","옥수수전분","피시소스","다진 마늘","설탕","후추","다진 생강","소금","식초","카놀라유","스위트칠리 소스"],"directIngredients":["돼지 다짐육","돼지껍데기","빵가루","옥수수전분","피시소스","다진 마늘","설탕","후추","다진 생강","소금","식초","카놀라유","스위트칠리 소스"]},{"id":"ca-vien-chien","name":"까비엔찌엔","category":"사이드","ingredients":["화이트 피시볼","카놀라유","스위트칠리 소스","오징어 피시볼","통살 새우볼"],"directIngredients":["화이트 피시볼","카놀라유","스위트칠리 소스","오징어 피시볼","통살 새우볼"]},{"id":"banh-trang-nuong","name":"반짱느엉","category":"사이드","ingredients":["얇은 라이스페이퍼","달걀","공용 돼지고기구이","돼지 앞다리살","돼지 뒷다리살","돼지고기 구이 양념","레몬그라스","피시소스","굴소스","설탕","생 샬롯","다진 마늘","카놀라유","후추","연육제","생쪽파","마요네즈","스리라차","튀긴 샬롯"],"directIngredients":["얇은 라이스페이퍼","달걀","공용 돼지고기구이","생쪽파","마요네즈","스리라차","튀긴 샬롯"]},{"id":"banh-khot","name":"반콧","category":"사이드","ingredients":["흰다리새우살 51/70","쌀전 반죽","멥쌀가루","옥수수전분","코코넛 밀크","강황가루","물","소금","생쪽파","카놀라유","상추","고수","당근","무","식초","설탕","쌀전 느억쩜","피시소스","다진 마늘"],"directIngredients":["흰다리새우살 51/70","쌀전 반죽","생쪽파","카놀라유","상추","고수","당근","무","식초","설탕","쌀전 느억쩜"]},{"id":"banh-xeo","name":"반쎄오","category":"사이드","ingredients":["공용 돼지고기구이","돼지 앞다리살","돼지 뒷다리살","돼지고기 구이 양념","레몬그라스","피시소스","굴소스","설탕","생 샬롯","다진 마늘","카놀라유","후추","연육제","쌀전 반죽","멥쌀가루","옥수수전분","코코넛 밀크","강황가루","물","소금","숙주","깐양파","생쪽파","깐녹두","상추","고수","쌀전 느억쩜","식초","당근·무 피클","당근","무","생 라롯 잎"],"directIngredients":["공용 돼지고기구이","쌀전 반죽","숙주","깐양파","생쪽파","깐녹두","카놀라유","상추","고수","쌀전 느억쩜","당근·무 피클","생 라롯 잎"]},{"id":"cha-la-lot","name":"차라롯","category":"사이드","ingredients":["돼지고기 라롯(완제품)","카놀라유","피시소스","설탕","식초","물","다진 마늘"],"directIngredients":["돼지고기 라롯(완제품)","카놀라유","피시소스","설탕","식초","물","다진 마늘"]},{"id":"wings","name":"피시소스 닭날개","category":"사이드","ingredients":["닭날개(윙·봉)","옥수수전분","피시소스","벌꿀","다진 마늘","소금","후추","카놀라유","레몬그라스"],"directIngredients":["닭날개(윙·봉)","옥수수전분","피시소스","벌꿀","다진 마늘","소금","후추","카놀라유","레몬그라스"]},{"id":"banh-trang-cuon","name":"반짱꾸온","category":"사이드","ingredients":["얇은 라이스페이퍼","그린망고","메추리알","소고기 육포채","라우람","튀긴 샬롯","볶음 땅콩","밥새우(건새우)","따끄(깔라만시)","피시소스","설탕","스리라차","마요네즈"],"directIngredients":["얇은 라이스페이퍼","그린망고","메추리알","소고기 육포채","라우람","튀긴 샬롯","볶음 땅콩","밥새우(건새우)","따끄(깔라만시)","피시소스","설탕","스리라차","마요네즈"]},{"id":"rice-paper-seasoned","name":"양념 라이스페이퍼","category":"사이드","ingredients":["사떼 새우맛 라이스페이퍼 스낵"],"directIngredients":["사떼 새우맛 라이스페이퍼 스낵"]},{"id":"rice-paper-roll","name":"새우소금 라이스페이퍼 롤","category":"사이드","ingredients":["새우소금맛 라이스페이퍼 롤"],"directIngredients":["새우소금맛 라이스페이퍼 롤"]},{"id":"corn-fried","name":"옥수수알튀김","category":"사이드","ingredients":["냉동 옥수수알 튀김","무염버터","카놀라유"],"directIngredients":["냉동 옥수수알 튀김","무염버터","카놀라유"]},{"id":"che-ba-mau","name":"쩨 바 마우","category":"디저트","ingredients":["깐녹두","물","가당 통단팥","판단 한천 젤리","한천","설탕","판단 추출액","소금","코코넛 소스","코코넛 밀크","옥수수전분","얼음"],"directIngredients":["깐녹두","물","가당 통단팥","판단 한천 젤리","코코넛 소스","얼음"]},{"id":"che-chuoi","name":"쩨 쭈오이","category":"디저트","ingredients":["바나나","물","코코넛 밀크","설탕","타피오카 펄","소금","옥수수전분","판단 추출액","볶음 땅콩"],"directIngredients":["바나나","물","코코넛 밀크","설탕","타피오카 펄","소금","옥수수전분","판단 추출액","볶음 땅콩"]},{"id":"pandan-jelly","name":"판단·코코넛 젤리","category":"디저트","ingredients":["한천","물","설탕","소금","코코넛 밀크","가당연유","생판단잎"],"directIngredients":["한천","물","설탕","소금","코코넛 밀크","가당연유","생판단잎"]},{"id":"fried-banana","name":"바나나 튀김","category":"디저트","ingredients":["냉동 바나나 튀김","코코넛 소스","코코넛 밀크","물","설탕","옥수수전분","소금","카놀라유"],"directIngredients":["냉동 바나나 튀김","코코넛 소스","카놀라유"]},{"id":"coffee","name":"베트남 연유커피","category":"음료","ingredients":["블랙 인스턴트커피","가당연유","물","얼음"],"directIngredients":["블랙 인스턴트커피","가당연유","물","얼음"]},{"id":"jasmine-tea","name":"자스민 아이스티","category":"음료","ingredients":["자스민 티백","물","얼음"],"directIngredients":["자스민 티백","물","얼음"]},{"id":"lime-soda","name":"라임 소다","category":"음료","ingredients":["라임즙","슈가시럽","플레인 탄산수","얼음"],"directIngredients":["라임즙","슈가시럽","플레인 탄산수","얼음"]},{"id":"sugarcane","name":"사탕수수 주스","category":"음료","ingredients":["사탕수수 주스 원액","얼음"],"directIngredients":["사탕수수 주스 원액","얼음"]},{"id":"coconut-water","name":"코코넛워터","category":"음료","ingredients":["코코넛워터 원액","얼음"],"directIngredients":["코코넛워터 원액","얼음"]}]};
+(() => {
+  "use strict";
+  const $ = (selector) => document.querySelector(selector);
+  const el = (tag, className, value) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (value !== undefined) node.textContent = value;
+    return node;
+  };
+  const btn = (className, value, act) => {
+    const node = el("button", className, value);
+    node.type = "button";
+    node.addEventListener("click", act);
+    return node;
+  };
+  const pressed = (button, state) => button.setAttribute("aria-pressed", String(state));
+  const clean = (value) => String(value ?? "").normalize("NFC").trim();
+  const key = (value) => clean(value).toLocaleLowerCase("ko").replace(/\s+/g, "");
+  const compare = new Intl.Collator("ko", {numeric:true}).compare;
+  const menus = (window.MENU_DATA?.menus || []).map(m => ({
+    id:clean(m.id), name:clean(m.name), category:clean(m.category),
+    ingredients:[...new Set((m.ingredients || []).map(clean).filter(Boolean))],
+    direct:new Set((m.directIngredients || m.ingredients || []).map(clean).filter(Boolean))
+  })).filter(m => m.id && m.name);
+  const byId = new Map(menus.map(m => [m.id, m]));
+  const usages = new Map();
+  for (const menu of menus) for (const name of menu.ingredients) {
+    if (!usages.has(name)) usages.set(name, []);
+    usages.get(name).push(menu);
+  }
+  const ingredientNames = [...usages.keys()].sort((a,b) => usages.get(b).length - usages.get(a).length || compare(a,b));
+  const spotlights = ["공용 돼지고기구이","생쪽파","쌀전 반죽","당근·무 피클"];
+  const priority = new Map(spotlights.map((name,i) => [name,i]));
+  ingredientNames.sort((a,b) => (priority.get(a) ?? 100) - (priority.get(b) ?? 100));
+  const categories = [...new Set(menus.map(m => m.category))];
+  const defaultIngredient = ingredientNames.find(x => x === "공용 돼지고기구이" && usages.get(x).length > 1)
+    || ingredientNames.find(x => /쪽파/.test(x) && usages.get(x).length > 1)
+    || ingredientNames[0];
+  const shared = (name) => usages.get(name).length > 1;
+  const labels = {all:"전체", shared:"공용", single:"단독"};
+  const catalog = $("#catalog-list");
+  const detail = $("#detail");
+  const search = $("#search");
+  const selections = {ingredient:defaultIngredient, menu:menus[0]?.id};
+  const browse = {
+    ingredient:{search:"", choice:ingredientNames.some(shared) ? "shared" : "all"},
+    menu:{search:"", choice:""}
+  };
+  let mode = "ingredient";
+  let selected = defaultIngredient;
+  let filter = "all";
+  let peersShown = 6;
+  const matchesType = (name, type) => type === "all" || (type === "shared") === shared(name);
+  const mobile = () => window.matchMedia("(max-width:670px)").matches;
+
+  function writeRoute(replace) {
+    const query = new URLSearchParams({[mode]:selected});
+    if (mode === "menu" && filter !== "all") query.set("view",filter);
+    const hash = "#" + query.toString();
+    const depth = history.state?.menuDepth || 0;
+    if (hash === location.hash) return;
+    try { history[replace ? "replaceState" : "pushState"]({menuDepth:replace ? depth : depth+1},"",hash); }
+    catch { location.hash=hash; }
+  }
+  function readRoute() {
+    const query = new URLSearchParams(location.hash.slice(1));
+    const id = clean(query.get("menu"));
+    const name = clean(query.get("ingredient"));
+    mode = byId.has(id) ? "menu" : "ingredient";
+    selected = mode === "menu" ? id : usages.has(name) ? name : defaultIngredient;
+    filter = mode === "menu" && ["shared","single"].includes(query.get("view")) ? query.get("view") : "all";
+    selections[mode] = selected;
+    if (mode === "ingredient" && !matchesType(selected, browse.ingredient.choice)) browse.ingredient.choice = "all";
+    const targetName = mode === "menu" ? byId.get(selected).name : selected;
+    if (!key(targetName).includes(key(browse[mode].search))) browse[mode].search = "";
+    if (mode === "menu" && browse.menu.choice && browse.menu.choice !== byId.get(selected).category) browse.menu.choice = "";
+  }
+  function navigate(nextMode, item, fromResult = false) {
+    const changedMode = mode !== nextMode;
+    mode = nextMode;
+    selected = item;
+    selections[mode] = item;
+    filter = "all";
+    peersShown = 6;
+    if (changedMode || fromResult) {
+      browse[mode].search = "";
+      if (mode === "menu" && browse.menu.choice !== byId.get(selected).category) browse.menu.choice = "";
+      if (mode === "ingredient" && !matchesType(selected, browse.ingredient.choice)) browse.ingredient.choice = "all";
+    }
+    writeRoute(false);
+    render();
+    if (fromResult || mobile()) {
+      detail.focus({preventScroll:true});
+      detail.scrollIntoView({block:"nearest",behavior:"auto"});
+      if (mobile()) detail.scrollIntoView({block:"start",behavior:"auto"});
+    } else {
+      const node = catalog.querySelector("[aria-current=true]");
+      if (node) node.focus({preventScroll:true});
+    }
+  }
+  function switchMode(nextMode) {
+    if (mode === nextMode) return;
+    navigate(nextMode, selections[nextMode]);
+    document.querySelector('[data-mode="'+nextMode+'"]').focus({preventScroll:true});
+    if (mobile()) $(".catalog").scrollIntoView({block:"start"});
+  }
+  function displayChoice(name, value, active, action, amount) {
+    const button = btn("",name,action);
+    pressed(button,active === value);
+    if (amount !== undefined) button.append(el("span","filter-count",amount));
+    return button;
+  }
+  function renderCatalogFilters() {
+    const holder = $("#catalog-filter");
+    holder.replaceChildren();
+    if (mode === "ingredient") {
+      const strip = el("div","filter-strip");
+      strip.setAttribute("role","group");
+      strip.setAttribute("aria-label","재료 사용 구분");
+      for (const value of Object.keys(labels)) {
+        const button = displayChoice(labels[value],value,browse.ingredient.choice,() => {
+          browse.ingredient.choice = value;
+          renderCatalogFilters(); renderList();
+          $("#catalog-filter [aria-pressed=true]").focus({preventScroll:true});
+        });
+        strip.append(button);
+      }
+      holder.append(strip);
+    } else {
+      const select = el("select","category-select");
+      select.setAttribute("aria-label","메뉴 분류");
+      for (const choice of ["",...categories]) {
+        const option = el("option","",choice || "모든 메뉴 분류");
+        option.value = choice;
+        select.append(option);
+      }
+      select.value=browse.menu.choice;
+      select.addEventListener("change",() => { browse.menu.choice=select.value; renderList(); });
+      holder.append(select);
+    }
+  }
+  function renderList() {
+    const state = browse[mode];
+    const q = key(state.search);
+    const entries = mode === "ingredient" ?
+      ingredientNames.filter(n => matchesType(n,state.choice) && key(n).includes(q))
+        .map(n => [n,n,usages.get(n).length+"개 메뉴"]) :
+      menus.filter(m => (!state.choice || m.category === state.choice) && key(m.name).includes(q))
+        .map(m => [m.id,m.name,m.category]);
+    $("#visible-count").textContent=entries.length+"개";
+    const nodes = entries.map(([id,name,value]) => {
+      const node = btn("catalog-row"+(id === selected ? " selected" : ""),"",() => navigate(mode,id));
+      node.append(el("span","",name),el("span","metric",value));
+      if (id === selected) node.setAttribute("aria-current","true");
+      return node;
+    });
+    catalog.replaceChildren(...nodes);
+    if (!nodes.length) catalog.append(el("p","empty","조건에 맞는 "+(mode === "ingredient" ? "재료" : "메뉴")+"가 없습니다."));
+  }
+  function section(title,meta) {
+    const outer = el("section","content-section");
+    const heading = el("div","section-head");
+    heading.append(el("h3","",title));
+    if(meta) heading.append(el("span","count",meta));
+    outer.append(heading);
+    return outer;
+  }
+  function menuButton(menu) {
+    const node = btn("item-link","",() => navigate("menu",menu.id,true));
+    const arrow = el("span","arrow","→");
+    arrow.setAttribute("aria-hidden","true");
+    const caption=el("span","menu-caption");
+    caption.append(el("span","",menu.name));
+    if (!menu.direct.has(selected)) caption.append(el("small","","배합에 포함"));
+    node.append(caption,arrow);
+    return node;
+  }
+  function ingredientResult() {
+    const list = usages.get(selected);
+    const outer = section("이 재료를 쓰는 메뉴",list.length+"개");
+    for (const category of categories) {
+      const group = list.filter(m => m.category === category);
+      if (!group.length) continue;
+      const wrap = el("div","subgroup");
+      wrap.append(el("h4","",category+" · "+group.length));
+      const grid = el("div","menu-grid");
+      group.forEach(menu => grid.append(menuButton(menu)));
+      wrap.append(grid); outer.append(wrap);
+    }
+    return outer;
+  }
+  function ingredientsSection(menu) {
+    const result = section("사용 재료");
+    const heading = result.firstElementChild;
+    heading.classList.add("filter-heading");
+    const strip = el("div","filter-strip");
+    strip.setAttribute("role","group");
+    strip.setAttribute("aria-label","강조할 재료");
+    for (const value of Object.keys(labels)) {
+      const count = menu.ingredients.filter(n => matchesType(n,value)).length;
+      const node = displayChoice(labels[value],value,filter,() => {
+        filter=value;
+        writeRoute(true);
+        renderDetail();
+        detail.querySelector(".filter-strip [aria-pressed=true]").focus({preventScroll:true});
+      },count);
+      strip.append(node);
+    }
+    heading.append(strip);
+    const names=[...menu.ingredients];
+    const gridFor = (list) => {
+      const grid = el("div","ingredient-grid");
+      const ordered = [...list].sort((a,b) => Number(matchesType(b,filter))-Number(matchesType(a,filter)));
+      for (const name of ordered) {
+        const type = shared(name) ? "shared" : "single";
+        const style = filter === "all" ? "" : matchesType(name,filter) ? " is-highlighted" : " is-muted";
+        const node = btn("item-link"+style,"",() => navigate("ingredient",name,true));
+        node.dataset.type=type;
+        const uses = usages.get(name).length-1;
+        node.append(el("span","",name),el("span","",uses ? "공용 · 다른 메뉴 "+uses+"개" : "단독 · 이 메뉴만 사용"));
+        grid.append(node);
+      }
+      return grid;
+    };
+    const direct = names.filter(name => menu.direct.has(name));
+    const inPrep = names.filter(name => !menu.direct.has(name));
+    if (direct.length) result.append(gridFor(direct));
+    if (inPrep.length) {
+      const prep = el("details","prep");
+      prep.open = filter !== "all";
+      prep.append(el("summary","","배합 속 재료 "+inPrep.length+"개"),gridFor(inPrep));
+      result.append(prep);
+    }
+    if (!names.length) result.append(el("p","empty","등록된 재료가 없습니다."));
+    else if (!names.some(n => matchesType(n,filter))) result.append(el("p","empty","이 메뉴에 "+labels[filter]+" 재료가 없습니다."));
+    return result;
+  }
+  function peerSection(menu) {
+    const overlaps = new Map();
+    for (const ingredient of menu.ingredients) for (const other of usages.get(ingredient)) {
+      if (other.id === menu.id) continue;
+      if (!overlaps.has(other)) overlaps.set(other,[]);
+      overlaps.get(other).push(ingredient);
+    }
+    const ranked = [...overlaps].sort((a,b) => b[1].length-a[1].length || compare(a[0].name,b[0].name));
+    const outer = section("같은 재료를 쓰는 메뉴",ranked.length+"개");
+    const rows = el("div","");
+    const makePeer = ([other, ingredients]) => {
+      const row = el("details","peer");
+      const summary = el("summary");
+      summary.append(el("strong","",other.name),el("span","","겹치는 재료 "+ingredients.length+"개"));
+      const chips = el("ul","overlap-list");
+      for (const name of [...ingredients].sort(compare)) {
+        const li = el("li");
+        li.append(btn("",name,() => navigate("ingredient",name,true)));
+        chips.append(li);
+      }
+      row.append(summary,chips,btn("peer-link","메뉴 열기 →",() => navigate("menu",other.id,true)));
+      return row;
+    };
+    ranked.slice(0,peersShown).forEach(entry => rows.append(makePeer(entry)));
+    outer.append(rows);
+    if (ranked.length > peersShown) {
+      const more = btn("more","나머지 "+(ranked.length-peersShown)+"개 메뉴 보기",() => {
+        const start=peersShown;
+        ranked.slice(start).forEach(entry => rows.append(makePeer(entry)));
+        peersShown=ranked.length;
+        more.remove();
+        rows.children[start].querySelector("summary").focus();
+      });
+      outer.append(more);
+    }
+    if (!ranked.length) outer.append(el("p","empty","이 메뉴와 재료를 함께 쓰는 메뉴가 없습니다."));
+    return outer;
+  }
+  function renderDetail() {
+    const isMenu=mode === "menu";
+    const item=isMenu ? byId.get(selected) : undefined;
+    const hero=el("div","hero");
+    const top=el("div","hero-top");
+    top.append(el("div","kind",isMenu ? item.category : shared(selected) ? "공용 재료" : "단독 재료"));
+    if ((history.state?.menuDepth || 0)>0) top.append(btn("back","← 이전 선택",() => history.back()));
+    const h=el("h2","",isMenu ? item.name : selected); h.id="item-title";
+    const meta=el("div","details");
+    if (isMenu) {
+      const common = item.ingredients.filter(shared).length;
+      meta.append(el("span","","공용 재료 "+common+"개"),el("span","","단독 재료 "+(item.ingredients.length-common)+"개"));
+      if (item.ingredients.some(name => !item.direct.has(name))) meta.append(el("small","","배합 속 재료 포함"));
+    } else {
+      const used=usages.get(selected);
+      meta.append(el("span","",used.length+"개 메뉴에서 사용"));
+    }
+    hero.append(top,h,meta);
+    detail.replaceChildren(hero);
+    if (isMenu) {
+      const recipe=el("div","menu-detail"+(filter === "single" ? " solo-view" : ""));
+      recipe.append(ingredientsSection(item));
+      if (filter !== "single") recipe.append(peerSection(item));
+      detail.append(recipe);
+    } else detail.append(ingredientResult());
+    document.title=h.textContent+" · 메뉴와 식재료";
+    $("#status").textContent=h.textContent+" 선택. "+meta.textContent;
+  }
+  function render() {
+    const isMenu = mode === "menu";
+    for(const node of document.querySelectorAll("[data-mode]")) pressed(node,node.dataset.mode === mode);
+    $("#catalog-title").textContent=isMenu ? "메뉴 목록" : "재료 목록";
+    search.placeholder=isMenu ? "메뉴 이름 검색" : "재료 이름 검색";
+    search.setAttribute("aria-label",search.placeholder);
+    search.value=browse[mode].search;
+    renderCatalogFilters(); renderList(); renderDetail();
+    const current = catalog.querySelector("[aria-current=true]");
+    if (current) {
+      const row = current.getBoundingClientRect();
+      const bounds = catalog.getBoundingClientRect();
+      if (row.bottom > bounds.bottom) catalog.scrollTop += row.bottom - bounds.bottom;
+      else if (row.top < bounds.top) catalog.scrollTop -= bounds.top - row.top;
+    }
+  }
+  if (!menus.length || !ingredientNames.length) {
+    detail.append(el("p","empty","메뉴 데이터를 불러오지 못했습니다."));
+    return;
+  }
+  $("#summary").append(el("span","","메뉴·옵션 "+menus.length+"개"),el("span","","식재료·배합 "+ingredientNames.length+"종"));
+  search.addEventListener("input",() => {browse[mode].search=search.value;renderList();});
+  document.querySelectorAll("[data-mode]").forEach(node => node.addEventListener("click",() => switchMode(node.dataset.mode)));
+  $(".skip").addEventListener("click",ev => {ev.preventDefault();detail.focus();});
+  const routeChange = () => {readRoute();peersShown=6;render();};
+  window.addEventListener("popstate",routeChange);
+  window.addEventListener("hashchange",routeChange);
+  readRoute();
+  writeRoute(true);
+  render();
+})();
+
+</script>
+</body>
+</html>
